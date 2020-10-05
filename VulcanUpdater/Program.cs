@@ -17,7 +17,7 @@ namespace VulcanUpdater
         static async Task Main(string[] args)
         {
             Console.WriteLine("Vulcan Updater");
-            var uri = new Uri("http://localhost:3000/updater");
+            var uri = new Uri("http://51.83.187.185/updater");
             var socket = new SocketIO(uri);
 
             socket.OnConnected += Socket_OnConnected;
