@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Diagnostics;
 using Octokit;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 namespace VulcanUpdater
 {
@@ -17,9 +18,16 @@ namespace VulcanUpdater
         static async Task Main(string[] args)
         {
             Console.WriteLine("Vulcan Updater");
-            var uri = new Uri("http://51.83.187.185/updater");
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("config.json");
+            
+            var config = builder.Build();
+            var adress = config.GetSection("adress").Value;
+            
+            var uri = new Uri(adress);
             var socket = new SocketIO(uri);
-
+            
             socket.OnConnected += Socket_OnConnected;
             socket.OnDisconnected += Socket_onDisconnected;
             
