@@ -23,9 +23,9 @@ namespace VulcanUpdater
                 .AddJsonFile("config.json");
             
             var config = builder.Build();
-            var adress = config.GetSection("adress").Value;
-            
-            var uri = new Uri(adress);
+            var adress = config.GetSection("Adress").Value;
+            Console.WriteLine(adress);
+            var uri = new Uri(adress +"updater");
             var socket = new SocketIO(uri);
             
             socket.OnConnected += Socket_OnConnected;
@@ -78,6 +78,8 @@ namespace VulcanUpdater
             string clientFilename = $"{currentDir}/client/VulcanClient2.exe";
             Process process = new Process();
             process.StartInfo.FileName = clientFilename;
+            process.StartInfo.CreateNoWindow = false;
+            process.StartInfo.UseShellExecute = true;
             
             var ghClient = new GitHubClient(ProductHeaderValue.Parse("Vulcan"));
             
@@ -166,6 +168,8 @@ namespace VulcanUpdater
                 }
             }
 
+            await process.WaitForExitAsync();
+            if (process.HasExited) process.Start();
             Console.ReadLine();
         }
 
