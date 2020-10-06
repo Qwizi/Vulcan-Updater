@@ -169,7 +169,7 @@ namespace VulcanUpdater
             }
 
             await process.WaitForExitAsync();
-            if (process.HasExited) process.Start();
+            
             Console.ReadLine();
         }
 
